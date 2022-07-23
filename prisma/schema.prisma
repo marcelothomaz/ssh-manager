@@ -27,6 +27,8 @@ model Server {
   privateKey     String
   hostname       String
   username       String
+  lastSync       DateTime?
+  active         Boolean          @default(true)
   users          UsersOnServers[]
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt

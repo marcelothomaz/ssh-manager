@@ -1,22 +1,19 @@
 import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createServer, alterUsersToServer } from '../../src/api/server'
+import { listUsersOnServer } from '../../../../src/api/server'
+
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     switch (req.method) {
-      case 'POST':
-        const { privateKey, serverName, hostname, username } = req.body
+      case 'GET':
+        const { serverId } = req.query
+        if (!serverId) {
+          return res.status(402).end()
+        }
 
-        let server = await createServer(serverName, privateKey, username, hostname)
-
-        return res.json(server)
-      case 'PATCH':
-        const { serverId, addUserIds, delUserIds } = req.body
-
-        let results = await alterUsersToServer(serverId, addUserIds, delUserIds)
-
-        return res.json(results)
+        let usersOnServer = await listUsersOnServer(+serverId)
+        return res.json(usersOnServer)
       default:
         return res.status(404).end()
     }
