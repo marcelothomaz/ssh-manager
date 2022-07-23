@@ -1,19 +1,20 @@
-import type { NextPage } from 'next';
+import type { NextPage } from 'next'
 import type { NextApiRequest } from 'next'
-import axios from 'axios';
-import { Server } from '@prisma/client';
-import { useQuery } from 'react-query';
+import axios from 'axios'
+import { Server } from '@prisma/client'
+import { useQuery } from 'react-query'
+import UserTable from '../../../src/components/UserTable'
 
 const getUsersOnServers = async (serverId: Server["id"]) => {
-  let usersOnServerList = await axios.get(`/api/server/view/${serverId}`);
-  return usersOnServerList;
-};
+  let usersOnServerList = await axios.get(`/api/server/view/${serverId}`)
+  return usersOnServerList
+}
 
 const viewServerIdPage: NextPage = ({ serverId }: { serverId: Server["id"] }) => {
   const { isLoading, isError, data, error } = useQuery(
     ['getUsersOnServers', serverId],
     () => getUsersOnServers(serverId),
-  );
+  )
 
   if (isLoading) return (<p>Loading...</p>)
   if (isError) {
@@ -21,16 +22,16 @@ const viewServerIdPage: NextPage = ({ serverId }: { serverId: Server["id"] }) =>
     return (<p>Error...</p>)
   }
 
-  console.log(data)
+  let users = []
+  for (let i = 0; i < data.data.users.length; i++) {
+    users.push(data.data.users[i].user)
+  }
+  console.log(users)
 
   return (
-    <div>
-      {data.data.users.map(({ user }, idx: number) => {
-        return <p key={idx}>{user.username}</p>;
-      })}
-    </div>
-  );
-};
+    <UserTable users={users} />
+  )
+}
 
 // This gets called on every request
 export async function getServerSideProps(req: NextApiRequest) {
@@ -41,4 +42,4 @@ export async function getServerSideProps(req: NextApiRequest) {
   return { props: { serverId } }
 }
 
-export default viewServerIdPage;
+export default viewServerIdPage

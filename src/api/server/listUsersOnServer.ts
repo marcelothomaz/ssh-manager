@@ -13,6 +13,7 @@ function listUsersOnServer(serverId: number) {
         select: {
           user: {
             select: {
+              id: true,
               fullName: true,
               username: true,
               updatedAt: true
