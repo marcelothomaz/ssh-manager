@@ -22,11 +22,7 @@ const viewServerIdPage: NextPage = ({ serverId }: { serverId: Server["id"] }) =>
     return (<p>Error...</p>)
   }
 
-  let users = []
-  for (let i = 0; i < data.data.users.length; i++) {
-    users.push(data.data.users[i].user)
-  }
-  console.log(users)
+  let users = data.data.map(user => ({ ...user, checked: user.servers.some(item => item.server.id === 1) }))
 
   return (
     <UserTable users={users} />

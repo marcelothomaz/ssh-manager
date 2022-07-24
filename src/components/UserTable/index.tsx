@@ -2,11 +2,10 @@ import { User } from '@prisma/client'
 import moment from 'moment'
 
 type TUserProps = {
-  user: User
+  user: User,
 }
 
 const User = ({ user }: TUserProps) => {
-  console.log(user)
   return (
     <tr>
       <td className="sticky left-0 p-4 bg-white">
@@ -14,6 +13,7 @@ const User = ({ user }: TUserProps) => {
           className="w-5 h-5 border-gray-200 rounded"
           type="checkbox"
           id="row_1"
+          defaultChecked={user.checked}
         />
       </td>
       <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{user.id}</td>
