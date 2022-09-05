@@ -7,7 +7,6 @@ import axios from 'axios'
 
 const getServers = async () => {
   let serverList = await axios.get<Server[]>(`/api/server`)
-  console.log(serverList)
   return serverList
 }
 
@@ -22,7 +21,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="content h-full w-full space-y-4">
-      <Toolbar/>
+      <Toolbar />
       <div className="space-y-2">
         {data.data.map((server, idx) => {
           return (

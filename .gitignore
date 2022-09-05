@@ -35,3 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 *.db
+
+# any keys used for testing
+/keys/
